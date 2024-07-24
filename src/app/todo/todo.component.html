@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <div class="col-12 d-flex justify-content-center">
+        <div class="col-7 todo-block">
+            <h4 class="text-center mb-3 todo-header">Liste des tâches à faire - Angular 17</h4>
+            <div class="col-12 d-flex align-items-center justify-content-between">
+                <input type="text" class="col-8 todo-input" placeholder="Ajouter une tâche" name="text" [(ngModel)]="todoValue">
+                <button class="col-1 btn btn-primary" type="submit" (click)="addTodo()">Ajouter</button>
+            </div>
+
+            <!-- A faire -->
+            <div class="todo-list mt-3">
+                <h5> Tâches à faire</h5>
+                <div class="col-12 d-flex todo-single align-center" *ngFor="let todo of todoList; let i = index;">
+                    <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todo.value" (ngModelChange)="changeTodo(i)">
+                    <p class="col-9">{{todo.content}}</p>
+                    <button type="button" class="col-2 btn btn-outline-danger mb-3 ml-2" (click)="openModal(content, i, 'todoList')">
+                       supprimer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tâches terminées -->
+            <div class="todo-list mt-3" *ngIf="finishedList.length>0">
+                <h5>Tâches terminées</h5>
+                <div class="col-12 d-flex todo-single align-center" *ngFor="let todo of finishedList; let i = index;">
+                    <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todo.value" (ngModelChange)="changeFinished(i)">
+                    <p class="col-9">{{todo.content}}</p>
+                    <button type="button" class="col-2 btn-outline-danger mb-3 ml-2" (click)="openModal(content, i, 'finishedList')">
+                        supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Supprimer</h4>
+        <button
+            type="button"
+            class="btn-close"
+            aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')"
+        ></button>
+    </div>
+    <div class="modal-body">
+        <p>
+            Voulez-vous supprimer cette tâche ?
+        </p>
+        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+    </div>
+</ng-template>
